@@ -6,11 +6,11 @@ import java.util.Random;
 public class ValuablesTransporter implements Runnable {
   private ArrayList<Valuable> carriage = new ArrayList<>();
   private Deposit deposit;
-  private TreasureRoomDoor guardsman;
+  private TreasureRoomDoor treasureRoomDoor;
 
-  public ValuablesTransporter(Deposit deposit, TreasureRoomDoor guardsman) {
+  public ValuablesTransporter(Deposit deposit, TreasureRoomDoor treasureRoomDoor) {
     this.deposit = deposit;
-    this.guardsman = guardsman;
+    this.treasureRoomDoor = treasureRoomDoor;
   }
 
   @Override
@@ -42,12 +42,12 @@ public class ValuablesTransporter implements Runnable {
   }
 
   private void putValuablesInTreasureRoom() throws InterruptedException {
-    TreasureRoomWritable treasureRoom = guardsman.acquireWrite();
+    TreasureRoomWritable treasureRoom = treasureRoomDoor.acquireWrite();
     for (int i = 0; i < carriage.size(); i++) {
       treasureRoom.addValuable(carriage.get(i));
     }
     Thread.sleep(2000);
-    guardsman.releaseWrite();
+    treasureRoomDoor.releaseWrite();
     carriage.clear();
   }
 }
