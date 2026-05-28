@@ -10,7 +10,7 @@ public class Deposit
 
   public synchronized void addValuable(Valuable valuable) throws InterruptedException {
     while (deposit.size() >= CAPACITY) {
-      Log.getInstance().log(Deposit.class.getName(), "Full capacity - Miner waiting");
+      Log.getInstance().log(Deposit.class.getSimpleName(), "Full capacity - Miner waiting");
       wait();
     }
     deposit.add(valuable);
@@ -18,8 +18,8 @@ public class Deposit
   }
 
   public synchronized Valuable removeValuable() throws InterruptedException {
-    while (deposit.size() <= CAPACITY) {
-      Log.getInstance().log(Deposit.class.getName(), "Empty deposit - Transporter waiting");
+    while (deposit.isEmpty()) {
+      Log.getInstance().log(Deposit.class.getSimpleName(), "Empty deposit - Transporter waiting");
       wait();
     }
     Valuable valuable = deposit.remove(0);
