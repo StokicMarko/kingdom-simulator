@@ -5,12 +5,13 @@ import java.util.Random;
 public class Miner implements Runnable
 {
   String name;
-  Mine mine = new Mine();
+  Mine mine;
   Deposit deposit;
 
   public Miner(String name, Deposit deposit){
     this.deposit = deposit;
     this.name = name;
+    mine = new Mine();
   }
 
   @Override public void run()
@@ -19,7 +20,7 @@ public class Miner implements Runnable
       try
       {
         mining();
-        Thread.sleep(4000);
+        Thread.sleep(2000);
       }
       catch (InterruptedException e)
       {

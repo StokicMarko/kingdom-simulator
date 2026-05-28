@@ -8,11 +8,11 @@ public class Mine
 
   public Mine(){
     typeOfValuable = new Valuable[] {
-        Valuable.getInstance("Diamond", 500),
-        Valuable.getInstance("GoldNugget", 300),
-        Valuable.getInstance("Jewel", 300),
-        Valuable.getInstance("Ruby", 100),
-        Valuable.getInstance("Wooden coin", 5)
+        Valuable.getInstance("Diamond", 50),
+        Valuable.getInstance("GoldNugget", 30),
+        Valuable.getInstance("Jewel", 30),
+        Valuable.getInstance("Ruby", 10),
+        Valuable.getInstance("Wooden coin", 1)
     };
   }
 

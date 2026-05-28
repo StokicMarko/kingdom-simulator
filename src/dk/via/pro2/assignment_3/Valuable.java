@@ -24,4 +24,8 @@ public class Valuable
     }
     return instances.get(name);
   }
+
+  public int getMoneyValue(){
+    return moneyValue;
+  }
 }
