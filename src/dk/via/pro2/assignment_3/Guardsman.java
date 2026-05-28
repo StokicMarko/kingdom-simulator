@@ -19,7 +19,7 @@ public class Guardsman implements TreasureRoomDoor {
     }
     readers++;
     currentReadProxy = new TreasureRoomReadProxy(treasureRoom);
-    return new TreasureRoomReadProxy(treasureRoom);
+    return currentReadProxy;
   }
 
   @Override
@@ -40,7 +40,7 @@ public class Guardsman implements TreasureRoomDoor {
     }
     writing = true;
     currentWriteProxy = new TreasureRoomWriteProxy(treasureRoom);
-    return new TreasureRoomWriteProxy(treasureRoom);
+    return currentWriteProxy;
   }
 
   @Override

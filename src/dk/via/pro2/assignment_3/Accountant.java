@@ -15,15 +15,14 @@ public class Accountant implements Runnable
       try
       {
         TreasureRoomReadable treasureRoom = treasureRoomDoor.acquireRead();
-        int count = 0;
 
-        for (int i = 0; i < treasureRoom.lookAtValuables().size(); i++)
-        {
-          count++;
-          Thread.sleep(3000);
+        int totalWorth = 0;
+        for (Valuable valuable : treasureRoom.lookAtValuables()) {
+          totalWorth += valuable.getMoneyValue();
+          Thread.sleep(200);
         }
         Log.getInstance().log(Accountant.class.getSimpleName(),
-            "has count a total of " + count + " items");
+            "Total worth in treasure room: " + totalWorth);
 
         treasureRoomDoor.releaseRead();
         Thread.sleep(10000);
