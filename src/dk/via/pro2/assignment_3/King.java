@@ -3,63 +3,51 @@ package dk.via.pro2.assignment_3;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class King implements Runnable
-{
-  private TreasureRoomDoor treasureRoomDoor;
-  private ArrayList<Valuable> partyValuables = new ArrayList<>();
+public class King implements Runnable {
+  private final TreasureRoomDoor treasureRoomDoor;
+  private final ArrayList<Valuable> partyValuables = new ArrayList<>();
+  private final Random random = new Random();
 
-  public King (TreasureRoomDoor treasureRoomDoor){
+  public King(TreasureRoomDoor treasureRoomDoor) {
     this.treasureRoomDoor = treasureRoomDoor;
   }
 
-  @Override public void run()
-  {
-    while (true)
-    {
-      int targetValue = 50 + new Random().nextInt(151);
+  @Override
+  public void run() {
+    while (true) {
+      int targetValue = 50 + random.nextInt(101);
       int currentValue = 0;
-      boolean isReady = false;
+      partyValuables.clear();
+      boolean partyHappened = false;
 
-      try
-      {
+      try {
         TreasureRoomWritable treasureRoom = treasureRoomDoor.acquireWrite();
-
-        while (!isReady)
-        {
-          Valuable picked = treasureRoom.retrieveValuable();
-          if (picked != null){
+        try {
+          while (currentValue < targetValue) {
+            Valuable picked = treasureRoom.retrieveValuable();
+            if (picked == null) {
+              for (Valuable v : partyValuables) treasureRoom.addValuable(v);
+              partyValuables.clear();
+              break;
+            }
             partyValuables.add(picked);
             currentValue += picked.getMoneyValue();
-
-            if (currentValue >= targetValue)
-              isReady = true;
+            Thread.sleep(50);
           }
-          else {
-            for (Valuable valuable : partyValuables){
-              treasureRoom.addValuable(valuable);
-            }
-            isReady = true;
-          }
-
-          treasureRoomDoor.releaseWrite();
-          if (currentValue >= targetValue)
-          {
+          if (currentValue >= targetValue) {
             partyValuables.clear();
-            Log.getInstance().log(Class.class.getSimpleName(),
-                "PARTY TIMEE!!!");
+            partyHappened = true;
           }
-          else
-          {
-            Log.getInstance().log(Class.class.getSimpleName(),
-                "The fun is over, not enough valuables");
-          }
+        } finally {
+          treasureRoomDoor.releaseWrite(treasureRoom);
         }
 
+        Log.getInstance().log(King.class.getSimpleName(),
+            partyHappened ? "PARTY TIME!!!" : "Not enough valuables, party cancelled");
         Thread.sleep(10000);
-      }
-      catch (InterruptedException e)
-      {
-        throw new RuntimeException(e);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        return;
       }
     }
   }

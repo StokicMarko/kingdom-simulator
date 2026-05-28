@@ -11,44 +11,29 @@ public class Guardsman implements TreasureRoomDoor {
     this.treasureRoom = treasureRoom;
   }
 
-  @Override
-  public synchronized TreasureRoomReadable acquireRead() throws InterruptedException {
-    while (writing) {
-      Log.getInstance().log("Guardsman", "Reader waiting - writer inside");
-      wait();
+  @Override public synchronized TreasureRoomReadable acquireRead() throws InterruptedException {
+    while (writing)
+    {
+      Log.getInstance().log("Guardsman", "Reader waiting - writer inside"); wait();
     }
     readers++;
-    currentReadProxy = new TreasureRoomReadProxy(treasureRoom);
-    return currentReadProxy;
+    return new TreasureRoomReadProxy(treasureRoom);
   }
-
-  @Override
-  public synchronized void releaseRead() {
-    if (currentReadProxy != null) {
-      currentReadProxy.release();
-      currentReadProxy = null;
-    }
+  @Override public synchronized void releaseRead(TreasureRoomReadable proxy) {
+    if (proxy instanceof TreasureRoomReadProxy p) p.release();
     readers--;
     notifyAll();
   }
-
-  @Override
-  public synchronized TreasureRoomWritable acquireWrite() throws InterruptedException {
-    while (writing || readers > 0) {
-      Log.getInstance().log("Guardsman", "Writer waiting - room occupied");
-      wait();
+  @Override public synchronized TreasureRoomWritable acquireWrite() throws InterruptedException {
+    while (writing || readers > 0)
+    {
+      Log.getInstance().log("Guardsman", "Writer waiting - room occupied"); wait();
     }
     writing = true;
-    currentWriteProxy = new TreasureRoomWriteProxy(treasureRoom);
-    return currentWriteProxy;
+    return new TreasureRoomWriteProxy(treasureRoom);
   }
-
-  @Override
-  public synchronized void releaseWrite() {
-    if (currentWriteProxy != null) {
-      currentWriteProxy.release();
-      currentWriteProxy = null;
-    }
+  @Override public synchronized void releaseWrite(TreasureRoomWritable proxy) {
+    if (proxy instanceof TreasureRoomWriteProxy p) p.release();
     writing = false;
     notifyAll();
   }

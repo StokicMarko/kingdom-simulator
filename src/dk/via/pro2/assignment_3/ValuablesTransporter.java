@@ -47,7 +47,7 @@ public class ValuablesTransporter implements Runnable {
       treasureRoom.addValuable(carriage.get(i));
     }
     Thread.sleep(2000);
-    treasureRoomDoor.releaseWrite();
+    treasureRoomDoor.releaseWrite(treasureRoom);
     carriage.clear();
   }
 }

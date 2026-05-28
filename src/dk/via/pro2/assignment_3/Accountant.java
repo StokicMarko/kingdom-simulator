@@ -24,7 +24,7 @@ public class Accountant implements Runnable
         Log.getInstance().log(Accountant.class.getSimpleName(),
             "Total worth in treasure room: " + totalWorth);
 
-        treasureRoomDoor.releaseRead();
+        treasureRoomDoor.releaseRead(treasureRoom);
         Thread.sleep(10000);
       }
       catch (InterruptedException e)
