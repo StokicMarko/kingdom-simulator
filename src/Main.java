@@ -1,6 +1,4 @@
-import dk.via.pro2.assignment_3.Deposit;
-import dk.via.pro2.assignment_3.Miner;
-import dk.via.pro2.assignment_3.ValuablesTransporter;
+import dk.via.pro2.assignment_3.*;
 
 void main()
 {
@@ -8,7 +6,10 @@ void main()
   Miner miner1 = new Miner("John", deposit);
   Miner miner2 = new Miner("Mikel", deposit);
 
-  ValuablesTransporter valuablesTransporter1 = new ValuablesTransporter(deposit);
+  TreasureRoom treasureRoom = new TreasureRoom();
+  TreasureRoomDoor guard = new Guardsman(treasureRoom);
+
+  ValuablesTransporter valuablesTransporter1 = new ValuablesTransporter(deposit, guard);
 
   new Thread(miner1).start();
   new Thread(miner2).start();

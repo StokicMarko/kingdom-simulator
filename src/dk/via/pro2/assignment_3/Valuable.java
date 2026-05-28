@@ -28,4 +28,8 @@ public class Valuable
   public int getMoneyValue(){
     return moneyValue;
   }
+
+  public String getName(){
+    return name;
+  }
 }

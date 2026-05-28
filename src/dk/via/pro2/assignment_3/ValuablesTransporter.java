@@ -3,53 +3,51 @@ package dk.via.pro2.assignment_3;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ValuablesTransporter implements Runnable
-{
-
-  private ArrayList<Valuable> carriage;
+public class ValuablesTransporter implements Runnable {
+  private ArrayList<Valuable> carriage = new ArrayList<>();
   private Deposit deposit;
+  private TreasureRoomDoor guardsman;
 
-  public ValuablesTransporter(Deposit deposit){
+  public ValuablesTransporter(Deposit deposit, TreasureRoomDoor guardsman) {
     this.deposit = deposit;
-    carriage = new ArrayList<>();
+    this.guardsman = guardsman;
   }
 
-  @Override public void run()
-  {
-    while (true)
-    {
-      Random random = new Random();
-      int targetValue = 50 + (int)(Math.random() * (200 - 50 + 1));
-
+  @Override
+  public void run() {
+    while (true) {
+      int targetValue = 50 + new Random().nextInt(151);
       int currentValue = 0;
 
-      while (targetValue >= currentValue)
-      {
-        try
-        {
-          Valuable pickedValuable = deposit.removeValuable();
-          carriage.add(pickedValuable);
-          currentValue += pickedValuable.getMoneyValue();
-        }
-        catch (InterruptedException e)
-        {
+      while (currentValue < targetValue) {
+        try {
+          Valuable picked = deposit.removeValuable();
+          carriage.add(picked);
+          currentValue += picked.getMoneyValue();
+        } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
       }
 
       Log.getInstance().log(ValuablesTransporter.class.getSimpleName(),
-          "Has deliver " + carriage.size() + " valuables to the treasure room");
-      carriage.clear(); //TODO put Valuables in the treasure room
+          "Delivering " + carriage.size() + " valuables to the treasure room");
 
-      try
-      {
-        Thread.sleep(10000);
-      }
-      catch (InterruptedException e)
-      {
+      try {
+        putValuablesInTreasureRoom();
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
-
     }
+  }
+
+  private void putValuablesInTreasureRoom() throws InterruptedException {
+    TreasureRoomWritable treasureRoom = guardsman.acquireWrite();
+    for (int i = 0; i < carriage.size(); i++) {
+      treasureRoom.addValuable(carriage.get(i));
+    }
+    Thread.sleep(2000);
+    guardsman.releaseWrite();
+    carriage.clear();
   }
 }
