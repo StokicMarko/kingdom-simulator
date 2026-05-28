@@ -1,5 +1,6 @@
 package dk.via.pro2.assignment_3;
 
+import dk.via.pro2.assignment_3.valuables.Valuable;
 import utility.collection.ArrayList;
 import utility.collection.ListADT;
 

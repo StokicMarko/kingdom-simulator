@@ -1,4 +1,4 @@
-package dk.via.pro2.assignment_3;
+package dk.via.pro2.assignment_3.treasureroom;
 
 public interface TreasureRoomDoor {
   TreasureRoomReadable acquireRead() throws InterruptedException;

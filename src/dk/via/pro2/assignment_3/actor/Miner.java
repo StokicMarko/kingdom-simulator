@@ -1,4 +1,9 @@
-package dk.via.pro2.assignment_3;
+package dk.via.pro2.assignment_3.actor;
+
+import dk.via.pro2.assignment_3.Deposit;
+import dk.via.pro2.assignment_3.Log;
+import dk.via.pro2.assignment_3.valuables.Mine;
+import dk.via.pro2.assignment_3.valuables.Valuable;
 
 import java.util.Random;
 

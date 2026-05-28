@@ -1,4 +1,6 @@
-package dk.via.pro2.assignment_3;
+package dk.via.pro2.assignment_3.treasureroom;
+
+import dk.via.pro2.assignment_3.Log;
 
 public class Guardsman implements TreasureRoomDoor {
   private TreasureRoom treasureRoom;

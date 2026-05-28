@@ -1,4 +1,4 @@
-package dk.via.pro2.assignment_3;
+package dk.via.pro2.assignment_3.valuables;
 
 import java.util.Random;
 

@@ -1,4 +1,11 @@
 import dk.via.pro2.assignment_3.*;
+import dk.via.pro2.assignment_3.actor.Accountant;
+import dk.via.pro2.assignment_3.actor.King;
+import dk.via.pro2.assignment_3.actor.Miner;
+import dk.via.pro2.assignment_3.actor.ValuablesTransporter;
+import dk.via.pro2.assignment_3.treasureroom.Guardsman;
+import dk.via.pro2.assignment_3.treasureroom.TreasureRoom;
+import dk.via.pro2.assignment_3.treasureroom.TreasureRoomDoor;
 
 void main()
 {
